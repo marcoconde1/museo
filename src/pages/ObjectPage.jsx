@@ -4,6 +4,7 @@ import Modelo3D from '../components/3Dmodel';
 import Imagenes from '../components/Images';
 import Videos from '../components/Videos';
 
+
 const ObjetoPage = () => {
   const { id } = useParams();
   const [objeto, setObjeto] = useState(null);
@@ -60,7 +61,7 @@ const ObjetoPage = () => {
 
       {/* Modelo 3D */}
       {modelo?.ruta_modelo && (
-        <div className="mb-8">
+        <div className="mb-8 invert-trigger"> {/* Clase agregada aquí */}
           <h1>Modelo 3D</h1>
           <Modelo3D ruta={modelo.ruta_modelo} fondo={modelo.ruta_fondo} />
         </div>
