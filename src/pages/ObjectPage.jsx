@@ -12,6 +12,9 @@ const ObjetoPage = () => {
   const [imagenes, setImagenes] = useState([]);
   const [videos, setVideos] = useState([]);
 
+  //prueba
+
+
   useEffect(() => {
     const fetchDatos = async () => {
       try {
@@ -19,6 +22,8 @@ const ObjetoPage = () => {
         const resObjeto = await fetch(`/api/objetos/${id}`);
         const dataObjeto = await resObjeto.json();
         setObjeto(dataObjeto);
+
+
 
         // Obtener modelo si existe
         const resModelo = await fetch(`/api/modelos/${id}`);
@@ -40,6 +45,8 @@ const ObjetoPage = () => {
           const dataVideos = await resVideos.json();
           setVideos(dataVideos);
         }
+        
+
 
       } catch (err) {
         console.error('Error al cargar los datos:', err);
@@ -58,6 +65,7 @@ const ObjetoPage = () => {
       <p className="mb-2"><strong>Fecha de creación:</strong> {new Date(objeto.fecha_creacion).toLocaleDateString()}</p>
       <p className="mb-2"><strong>Valor histórico:</strong> {objeto.valor_historico}</p>
       <p className="mb-4"><strong>Visitas:</strong> {objeto.nro_visitas}</p>
+    
 
       {/* Modelo 3D */}
       {modelo?.ruta_modelo && (
