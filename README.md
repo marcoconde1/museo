@@ -81,6 +81,7 @@ museo-frontend/
 ├── public/                ← Contenido descargado desde Google Drive
 ├── src/
 │   ├── components/        ← Componentes reutilizables
+│   ├── context/           ← Contextos globales de React (manejo de estado)
 │   ├── pages/             ← Vistas principales del sitio
 │   ├── App.jsx            ← Configuración de rutas
 │   ├── main.jsx           ← Punto de entrada
