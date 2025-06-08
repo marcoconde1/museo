@@ -118,7 +118,13 @@ const Modelo3D = ({ ruta, fondo }) => {
     };
   }, [modeloUrl, fondoUrl]);
 
-  return <div ref={refContenedor} style={{ width: '100%', height: '90vh' }} />;
+  return (
+  <div
+    ref={refContenedor}
+      className="rounded-xl overflow-hidden"
+    style={{ width: '100%', height: '90vh' }}
+  />
+);
 };
 
 export default Modelo3D;

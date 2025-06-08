@@ -29,7 +29,7 @@ const Imagenes = ({ imagenes }) => {
             <img
               src={img.ruta_imagen}
               alt={`Imagen ${index + 1}`}
-              className="w-full h-64 md:h-96 object-cover"
+              className="w-full h-auto  object-contain"
             />
           </div>
         ))}

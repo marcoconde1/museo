@@ -15,7 +15,7 @@ const Videos = ({ videos }) => {
   };
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl shadow-lg">
+    <div className="relative w-full overflow-hidden rounded-xl">
       {/* Contenedor del carrusel */}
       <div
         className="flex transition-transform duration-500 ease-in-out"
@@ -34,7 +34,7 @@ const Videos = ({ videos }) => {
                 title={`Video ${index + 1}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="w-full h-full rounded-xl"
+                className="w-full h-full "
               ></iframe>
             </div>
           );

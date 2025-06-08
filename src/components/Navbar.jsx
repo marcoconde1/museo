@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Asegúrate de importar tu contexto de autenticación
 
 const MAX_SCROLL = 100;
 const MAX_OFFSET = 20;
@@ -9,8 +10,12 @@ const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const logoRef = useRef(null);
+  const dropdownRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth(); // Obtener usuario y función de logout del contexto
 
   // Comprueba si el logo intersecta con los triggers
   const checkIntersections = useCallback(() => {
@@ -23,6 +28,19 @@ const Navbar = () => {
       return top < logoBottom && bottom > logoTop;
     });
     setIsIntersecting(intersecting);
+  }, []);
+
+  // Cerrar el menú desplegable al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   // Scroll y resize con requestAnimationFrame
@@ -112,19 +130,78 @@ const Navbar = () => {
             </div>
           )}
 
-          {/* Contacto - Right */}
+          {/* Menú de usuario - Right */}
           <div
             className="transition-transform duration-300 absolute right-10"
             style={{ transform: `translateX(-${offsetX}px) translateY(${offsetY}px)` }}
+            ref={dropdownRef}
           >
-            <Link to="/login" className={`${linkBase} overflow-hidden`}>
-              <div className="overflow-hidden h-6">
-                <div className="transition-transform duration-300 transform group-hover:-translate-y-6">
-                  <span className="block h-6 leading-6">CONTACTO</span>
-                  <span className="block h-6 leading-6">CONTACTO</span>
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className={`${linkBase} overflow-hidden`}
+              >
+                <div className="overflow-hidden h-6">
+                  <div className="transition-transform duration-300 transform group-hover:-translate-y-6">
+                    <span className="block h-6 leading-6">MENÚ</span>
+                    <span className="block h-6 leading-6">MENÚ</span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </button>
+
+              {/* Menú desplegable */}
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  {user ? (
+                    // Usuario autenticado (normal o admin)
+                    <>
+                      <Link
+                        to="/saved"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Guardados
+                      </Link>
+                      <Link
+                        to="/contacto"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Contacto
+                      </Link>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        onClick={() => {
+                          logout();
+                          setDropdownOpen(false);
+                          navigate('/');
+                        }}
+                      >
+                        Cerrar sesión
+                      </button>
+                    </>
+                  ) : (
+                    // Usuario no autenticado
+                    <>
+                      <Link
+                        to="/login"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Iniciar sesión
+                      </Link>
+                      <Link
+                        to="/contacto"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Contacto
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
@@ -133,18 +210,18 @@ const Navbar = () => {
       {isMobile && (
         <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center">
           <Link to="/gallery" className={`${linkBase} overflow-hidden`}>
-                <span className="inline-block h-6 overflow-hidden relative">
-                  <span className="block transition-transform duration-300 transform group-hover:-translate-y-6">
-                    <span className="block h-6 leading-6">GALERÍA</span>
-                    <span className="block h-6 leading-6">GALERÍA</span>
-                  </span>
-                </span>
-                <img
-                  src="/resources/icono_galeria.svg"
-                  alt="Logo"
-                  className="w-5 h-5 transform transition-transform duration-500 group-hover:rotate-180"
-                />
-              </Link>
+            <span className="inline-block h-6 overflow-hidden relative">
+              <span className="block transition-transform duration-300 transform group-hover:-translate-y-6">
+                <span className="block h-6 leading-6">GALERÍA</span>
+                <span className="block h-6 leading-6">GALERÍA</span>
+              </span>
+            </span>
+            <img
+              src="/resources/icono_galeria.svg"
+              alt="Logo"
+              className="w-5 h-5 transform transition-transform duration-500 group-hover:rotate-180"
+            />
+          </Link>
         </div>
       )}
     </>

@@ -98,9 +98,9 @@ const LowerContent = () => {
         {modelo?.ruta_modelo && (
           <section className={`flex flex-col md:flex-row gap-12 items-start pb-16 
             ${isMounted ? 'animate-slide-in' : 'opacity-0'}`}>
-            <div className="w-full md:w-2/3 rounded-3xl overflow-hidden  h-[500px] 
-              transition-all duration-700 delay-200">
-              <Modelo3D 
+            <div  className="w-full md:w-2/3 h-[500px] flex items-center justify-center overflow-hidden transition-all duration-700 delay-200 rounded-xl">
+              <Modelo3D
+                
                 ruta={modelo.ruta_modelo} 
                 fondo={modelo.ruta_fondo}
                 className="w-full h-full object-contain"
@@ -126,12 +126,12 @@ const LowerContent = () => {
         {imagenes.length > 0 && (
           <section className={`flex flex-col md:flex-row-reverse gap-12 items-start pb-16 
             ${isMounted ? 'animate-slide-in' : 'opacity-0'}`}>
-            <div className="w-full md:w-2/3 transition-all duration-700 delay-300">
+            <div className="w-full md:w-2/3 transition-all duration-700 delay-300 rounded-xl">
               
                 <Imagenes 
                   imagenes={imagenes}
                   className="shadow-lg h-64 w-full object-cover 
-                    transition-transform duration-300 hover:scale-105"
+                    transition-transform duration-300 hover:scale-105 "
                 />
               
             </div>
@@ -150,7 +150,7 @@ const LowerContent = () => {
         {videos.length > 0 && (
           <section className={`flex flex-col md:flex-row gap-12 items-start pb-16 
             ${isMounted ? 'animate-slide-in' : 'opacity-0'}`}>
-            <div className="w-full md:w-2/3 transition-all duration-700 delay-300">
+            <div className="w-full md:w-2/3 transition-all duration-700 delay-300 ">
               <Videos 
                 videos={videos}
                 className="shadow-lg h-64 w-full object-cover 
